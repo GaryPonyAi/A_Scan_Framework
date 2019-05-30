@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+{#	<script src="https://code.ziqiangxuetang.com/media/django/csrf.js"></script>#}
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{#    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>#}
+    <script type="text/javascript" src="/static/js/vue.js"></script>
+    <script type="text/javascript" src="/static/js/csrf.js"></script>
+{#        <script src="/static/js/jquery-1.8.3.min.js"></script>#}
+    <script src="/static/js/jquery.cookie.js"></script>
+    <script src="/static/plugins/layer/layer.js"></script>
+    <script src="/static/js/csrf.js"></script>
+{#      <script src="/static/js/vendor.js"></script>#}
+      <script src="/static/js/corp.taskconfig.add.js"></script>
+<script src="/static/js/jquery.twbsPagination.js" type="text/javascript"></script>
+<script src="/static/js/jquery.twbsPagination.min.js" type="text/javascript"></script>
+{% block link %}
+{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="padding-left:150px">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="#">Vulnerbility Detection System</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li class="active"><a href="/">Main Page</a></li>
+			<li><a href="/savetodo/">To-do list</a></li>
+            {% if request.user.is_authenticated %}
+            <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Vulnerbility
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="/buglist/">All vulnerbility</a></li>
+					<li><a href="/addbug/">Add Vulnerbility</a></li>
+				</ul>
+			</li>
+            <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Tasks
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+	                <li><a href="/scan/">Scan Project</a></li>
+	                <li><a href="/poc_list/">Tools List</a></li>
+	                <li><a href="/results/">Scan results</a></li>
+				</ul>
+			</li>
+            <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Detection Tools
+						<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+	                <li><a href="/toollist/">Detection Tools List</a></li>
+						<li><a href="/addtool/">Add Detection Tools</a></li>
+					</ul>
+			</li>
+{#                <li class="dropdown">#}
+{#			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
+{#					指纹#}
+{#					<b class="caret"></b>#}
+{#			</a>#}
+{#			<ul class="dropdown-menu">#}
+{#                <li><a href="/#">临时指纹</a></li>#}
+{#					<li><a href="/#">新增指纹</a></li>#}
+{#				</ul>#}
+{#			</li>#}
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Personal Center
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="/accounts/profile/">Change Personal information</a></li>
+					<li><a href="/accounts/logout/">Log Out</a></li>
+				</ul>
+			</li>
+                <li><a href="#">Current User:{{ request.user.name }}</a></li>
+            {% else %}
+
+            <li><a href="/accounts/login/">Login</a></li>
+            <li><a href="/accounts/register/">Signin</a></li>
+            {% endif %}
+		</ul>
+	</div>
+</nav>
+<br><br><br>
+{% block content %}
+
+   <div class="container">
+	<div class="jumbotron">
+		<h1>This page is blank now!</h1>
+		<p>
+
+        </p>
+		<p>
+
+		</p>
+	</div>
+</div>
+{% endblock %}
+{% block vuejs %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends 'basemain.html' %}
+{% block title %}   Code Content {% endblock %}
+
+
+{% block link %}
+    <script src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/idea.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.7.0/highlightjs-line-numbers.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.1.6/highlightjs-highlight-lines.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <style>
+    textarea{
+        font-size: 14px;
+        color:red;
+        height: 522px;
+        width: 1000px;
+    }
+    </style>
+    <div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+       Code
+        </div>
+<!--         <div class="panel-body">
+        <form enctype="multipart/form-data" method="post">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">待办事项：</div>
+                        <pre><code>{{ content }}</code></pre>
+                </div>
+            </div>
+        </form>
+        </div> -->
+    <pre><code class="cpp">{{ content }}</code></pre>
+    </div>
+</div>
+{% endblock %}
+{% block vuejs %}
+<script>
+  hljs.initHighlightingOnLoad();
+  hljs.initLineNumbersOnLoad();
+  const highlight_lines = [];
+  for (line of [ {{ lines }} ])
+    highlight_lines.push({start: line - 1, end: line - 1, color: 'yellow'});
+  hljs.initHighlightLinesOnLoad([highlight_lines]);
+</script>
+{% endblock %}
+

@@ -1,0 +1,79 @@
+{% extends 'basemain.html' %}
+{% block title %}  Change personal information {% endblock %}
+
+{% block content %}
+<div id="app">
+<table class="table table-bordered">
+	<caption>Change personal information</caption>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Account</td>
+			<td><span v-text="email" class="form-control"></span></td>
+		</tr>
+		<tr>
+			<td>Name</td>
+			<td><input v-model="name" class="form-control"></input></td>
+		</tr>
+    		<tr>
+			<td>Job</td>
+			<td><input v-model="job" class="form-control"></input></td>
+		</tr>
+    		<tr>
+			<td>Age</td>
+			<td><input v-model="age" class="form-control"></input></td>
+		</tr>
+        		<tr>
+			<td>Phone Number</td>
+			<td><input v-model="iphone" class="form-control"></input></td>
+		</tr>
+	</tbody>
+</table>
+<button @click="submit" class="btn btn-primary">Save</button>
+    </div>
+{% endblock %}
+
+{% block vuejs %}
+    <script type="text/javascript">
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            email: '{{ request.user.email }}',
+            name: '{{ request.user.name }}',
+            job: '{{ request.user.job }}',
+            age: '{{ request.user.age }}',
+            iphone: '{{ request.user.iphone }}',
+        },
+        methods: {
+            submit() {
+                data_to_send = {
+                    email: this.email,
+                    name: this.name,
+                    job: this.job,
+                    age: this.age,
+                    iphone: this.iphone,
+
+                };
+                console.log(data_to_send);
+                data_to_send = JSON.stringify(data_to_send);
+                console.log(data_to_send);
+                $.post('/accounts/profile/', data_to_send, function (r, err) {
+                    if (err === 'success') {
+                        alert('Change information succeed!');
+                        return location.assign('/');
+                    } else {
+                        return console.log(err);
+                    }
+
+                });
+            },
+        },
+    });
+    </script>
+{% endblock %}
+
