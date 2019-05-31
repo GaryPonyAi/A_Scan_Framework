@@ -44,27 +44,33 @@ def scan(request):
         status:200 可以去扫描
     """
     if request.method == 'POST':
-        domains = str(request.POST.get('domains', "dhgate.com"))
-        poc_name = request.POST.get('poc_name', "")
+        domains = str(request.POST.get('targets', "dhgate.com"))
+        scan_tool = request.POST.get('scan_tool', "")
         task_name = request.POST.get('task_name', "")
         # mode = request.POST.get('mode', 1)
-        print(444)
-        print(domains)
-        print(111)
-        print(poc_name)
-        print(222)
-        print(task_name)
-        print(333)
 
         targets = list(set(domains.split(',')))
         tmp_targets = list(set(domains.split(',')))
+
+        file_targets = []
+        for target in targets:
+            if os.path.isdir(target):
+                onlyfiles = [os.path.join(target, f) for f in os.listdir(target) if os.path.isfile(os.path.join(target, f))]
+                file_targets.extend(onlyfiles)
+            else :
+                file_targets.append(target)
+
+        # print(file_targets)
+
         # 已有数据或者在扫描的目标不进行扫描
-        for target in tmp_targets:
-            cannt_scan_target,status = check_status(target)
-            if cannt_scan_target:
-                targets.remove(cannt_scan_target)
-        if targets:
-            Task_control().launch(targets, poc_name, task_name)
+        # for target in file_targets:
+        #     cannt_scan_target,status = check_status(target)
+        #     if cannt_scan_target:
+        #         targets.remove(cannt_scan_target)
+        # if file_targets:
+        if True:
+            # print('gggggggggggggggg')
+            Task_control().launch(file_targets, scan_tool, task_name)
             return JsonResponse({"status": 200})
         else:
             return JsonResponse({"status": 1})
@@ -93,8 +99,11 @@ def code(request):
         content = f.read()
 
     print(path)
+    description = Result.objects.get(domain=path).description
+    print(description)
+    descriptions = description.split('\n')
     # return render(request, {'code.html'})
-    return render(request, 'code.html', {"content": content, "lines": lines})
+    return render(request, 'code.html', {"content": content, "lines": lines, "descriptions" : descriptions})
 
 def scancheck(request):
     module = request.POST.get('module')
@@ -253,7 +262,7 @@ def addtool(request):
                 bug_name = request.POST['tool_name']
                 bug_txt = request.POST['tool_content']
                 # user = request.user
-                newBug = buglist.objects.create(bugname=bug_name, bugtxt=bug_txt)
+                newBug = toollist.objects.create(toolname=bug_name, tooltxt=bug_txt)
                 newBug.save()
                 print("保存成功")
                 return HttpResponse("1")
@@ -268,23 +277,27 @@ def addtool(request):
         return render(request,"addtool.html")
 
 def toolslist(request):
-    print(toollist)
-    contact_list = toollist.objects.all()
-    paginator = Paginator(contact_list, 15) # Show 25 contacts per page
-    print(paginator)
+    print(123123)
+    if request.method == "GET":
+        print(toollist)
+        print('lllllllllllllll')
+        contact_list = toollist.objects.all()
+        print('xxxxxxxxxxxxxxxx')
+        paginator = Paginator(contact_list, 15) # Show 25 contacts per page
+        print(paginator)
 
-    page = request.GET.get('page')
-    print(page)
-    try:
-        contacts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        contacts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        contacts = paginator.page(paginator.num_pages)
+        page = request.GET.get('page')
+        print(page)
+        try:
+            contacts = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            contacts = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            contacts = paginator.page(paginator.num_pages)
 
-    return render(request, 'toolslist.html', {'contacts': contacts})
+        return render(request, 'toollist.html', {'contacts': contacts})
 
 def projectdetailshow(request,project_id):
     '''

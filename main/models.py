@@ -40,6 +40,7 @@ class Result(models.Model):
     domain = models.TextField()
     poc_file = models.TextField(default='', null=True)
     result = models.TextField()
+    description = models.TextField(default='')
     date = models.DateTimeField(auto_now_add=True, blank=True)
     is_fixed = models.NullBooleanField(default=False)
 

@@ -1,10 +1,10 @@
 {% for result in results %}
     <tr>
-        <td>{{ result.domain }}</td>
+        <td><a href="/code?path={{ result.domain }}&lines={{ result.result }}">{{ result.domain }}</a></td>
         <td width="60%">
             <div class='pre-wrapper' style="padding-right: 140px;height: 34px;">
                 <a class="btn-collapse" href="#" style="padding-right: 60px;"> + Detail</a>
-                <pre><a href="/code?path={{ result.domain }}&lines={{ result.result }}">{{ result.result }}</a></pre>
+                <pre>{{ result.result }}</pre>
             </div>
         </td>
         <td>{{ result.date }}</td>

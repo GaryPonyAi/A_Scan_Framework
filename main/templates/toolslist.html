@@ -1,0 +1,82 @@
+{% extends 'basemain.html' %}
+{% block title %}  Tools List {% endblock %}
+
+{% block content %}
+<div class="container">
+        <div class="form-group">
+             <a class="btn btn-primary" href="{% url "addbug" %}">Add Tool</a>
+        </div>
+        <table class="table table-striped">
+            <tr>
+            <th>Tool Name</th>
+            <th>Tool Detail</th>
+            <th>Delete or Not</th>
+            <th>Add Time</th>
+            </tr>
+            {% for each in contacts %}
+            <tr>
+                <td>{{ each.toolname |safe}}</td>
+                <td><a href="{% url 'projectdetailshow' each.id %}" class="label label-success">Detail</a></td>
+                <td><a href="javascript:" onclick="delbug(this,{{ each.id }})" class="label label-danger">Delete</a></td>
+            <td>{{ each.pub_time}}</td>
+            </tr>
+                {% empty %}
+                <p>No vulnerbilities found</p>
+            {% endfor %}
+        </table>
+        <div class="pagination">
+    <span class="step-links">
+        {% if contacts.has_previous %}
+            <a href="?page={{ contacts.previous_page_number }}">Previous Page</a>
+        {% endif %}
+        <span class="current">
+            Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+        </span>
+        {% if contacts.has_next %}
+            <a href="?page={{ contacts.next_page_number }}">Next Page</a>
+        {% endif %}
+    </span>
+</div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block vuejs %}
+<script>
+        function delbug(the,bug_id) {
+            var bug_name = $(the).parents('tr').children('td').eq(0).text();
+    layer.open({
+	    type: 1,
+	    skin: "layui-layer-rim",
+	    area: ["400px", "200px"],
+	    title: "Delete Vulnerbility",
+	    content: '<div class="text-center" style="margin-top:20px"><p>Confirm deletion：'+bug_name+'</p></div>',
+	    btn:['Yes', 'No'],
+	    yes: function(){
+		$.ajax({
+		    url: '{% url "delbug" %}',
+		    type:"POST",
+		    data: {"bug_id":bug_id},
+		    success: function(e){
+			if(e=="1"){
+			    parent.location.reload();
+			    layer.msg("has been deleted.");
+			}else if(e=="0"){
+			    layer.msg("You have to login");
+			    location.href = "/"
+            }
+			else{
+			    {layer.msg("Failure");}
+			}
+
+		    },
+		})
+	    },
+	});
+        }
+    </script>
+{% endblock %}
+

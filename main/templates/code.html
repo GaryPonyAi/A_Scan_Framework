@@ -23,6 +23,19 @@
     <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading">
+       Descriptions
+        </div>
+<!--         <div class="panel-heading">
+       {{descriptions}}
+        </div> -->
+        <table class="table table-striped">
+            {% for each in descriptions %}
+                <tr>
+                 <td>{{ each}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="panel-heading">
        Code
         </div>
 <!--         <div class="panel-body">
@@ -35,7 +48,7 @@
             </div>
         </form>
         </div> -->
-    <pre><code class="cpp">{{ content }}</code></pre>
+        <pre><code class="cpp">{{ content }}</code></pre>
     </div>
 </div>
 {% endblock %}

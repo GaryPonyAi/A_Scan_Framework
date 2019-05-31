@@ -29,14 +29,14 @@ app.conf.update(
 # 失败任务重启休眠时间300秒，最大重试次数5次
 #@app.task(bind=True, default_retry_delay=300, max_retries=5)
 @app.task(time_limit=3600)
-def run_task_in_gevent(url_list, poc_file_dict):     # url_list 每个进程分配到一定量的url
+def run_task_in_gevent(target, scan_tool):     # url_list 每个进程分配到一定量的url
     # print('fuck3')
     poc = Poc_Launcher()
     print('fuck1')
     # poc.save_result('target', 'poc_file', "12345")
     # print('fuck4')
     pool = Pool(100)
-    pool.add(gevent.spawn(poc.save_result, 'target', 'poc_file', "12345"))
+    pool.add(gevent.spawn(poc.save_result, target, scan_tool, "12345"))
     pool.join()
     # pool = Pool(100)
     # for target in url_list:

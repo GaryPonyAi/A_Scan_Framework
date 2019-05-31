@@ -143,29 +143,27 @@
     console.log(12312344)
     function add_task() {
       console.log(1234)
-      var domains = document.getElementById('domain').value;
-      var scan_domain = (domains.replace(/\n/g, ","));
+      console.log(4321)
+      var targets = document.getElementById('domain').value;
+      console.log(4321)
+      var scan_targets = (targets.replace(/\n/g, ","));
       var mode = document.getElementById('scan-mode').value;
-      var poc_name = document.getElementById('scan-tool').value;
-      // var cookie = document.getElementById('scan_cookie').value;
-      var cookie = null;
-      // var ua = document.getElementById('scan_ua').value;
-      var ua = null;
+      var scan_tool = document.getElementById('scan-tool').value;
       // if(mode == 0) {
-          $.post('/scan/', {
-              'domains': scan_domain,
-              'poc_name': poc_name,
-              'mode': mode,
-              'csrfmiddlewaretoken': '{{ csrf_token }}'
-          },
-          function(status) {
-            if (status.status == 200) {
-              alert('Add task succed!');
-            }
-            if (status.status == 1) {
-              alert('We have already scaned this project!');
-            }
-          });
+      $.post('/scan/', {
+          'targets': scan_targets,
+          'scan_tool': scan_tool,
+          'mode': mode,
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+      },
+      function(status) {
+        if (status.status == 200) {
+          alert('Add task succed!');
+        }
+        if (status.status == 1) {
+          alert('We have already scaned this project!');
+        }
+      });
       // }else{
       //     $.post('/scan/', {
       //         'domains': scan_domain,

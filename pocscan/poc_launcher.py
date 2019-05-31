@@ -6,7 +6,7 @@ from pocscan.frame.tangscan import Tangscan
 from dj2.settings import SAVE_RESULT_API
 import requests as req
 
-from main.models import toollist,buglist,domain_ip,note,Result,Tasks_status
+from main.models import buglist,domain_ip,note,Result,Tasks_status
 import time
 
 import subprocess
@@ -29,7 +29,7 @@ class Poc_Launcher(object):
     def __get_pocs_count(self, poc_files):
         return len(poc_files)
 
-    def save_result(self, target, poc_file, result):
+    def save_result(self, target, scan_tool, result):
         # result = str(result)
         # save_result_api_addr = SAVE_RESULT_API
         # post = {
@@ -49,8 +49,11 @@ class Poc_Launcher(object):
         # with open('regression_edit_controller.cc', 'r') as f:
             # print(f.read())
 
-        filename = '/home/jiarui/A_Scan_Framework/test/test2.cpp'
-        name_len = len(filename)
+        # filename = '/home/jiarui/A_Scan_Framework/test/test2.cpp'
+        # time.sleep(60)
+        print('hahahahaha')
+        filename = target
+        print(filename)
         out = subprocess.Popen(['flawfinder', filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         stdout,stderr = out.communicate()
         stdout = stdout.decode("utf-8")
@@ -59,7 +62,10 @@ class Poc_Launcher(object):
         for i in range(len(result)):
             result[i] = list(result[i])
             result[i][3] = result[i][3].replace('\n  ', ' ').strip()
-        b = Result.objects.create(domain=filename, poc_file=poc_file, result=','.join([i[0] for i in result]))
+        description = '\n'.join([i[3] for i in result])
+        print(description)
+        b = Result.objects.create(domain=filename, poc_file=scan_tool, result=','.join([i[0] for i in result]),
+                    description=description)
         b.save()
 
 
