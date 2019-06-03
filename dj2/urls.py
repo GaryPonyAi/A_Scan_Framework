@@ -41,6 +41,7 @@ urlpatterns = [
     path('',main_view.index),
     path('admin/', admin.site.urls),
     path('code/',main_view.code,name="code"),
+    path('projects/',main_view.projects,name="projects"),
 
 ]
 

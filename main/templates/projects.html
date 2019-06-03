@@ -1,11 +1,11 @@
 {% extends 'basemain.html' %}
-{% block title %}  Result {% endblock %}
+{% block title %}  Projects {% endblock %}
 
 {% block content %}
 
 <main>
     <div class="container-fluid">
-        <h1 class="bread-crumb"> <strong>Result</strong>
+        <h1 class="bread-crumb"> <strong>Project</strong>
             <div class="absolute-right">
                 <form action="" method="post" class="input-group search-group" data-format="HTML" data-action="notpjax">
                     <input type="text" class="form-control" placeholder="Please enter...." name="keywords" />
@@ -16,7 +16,6 @@
             <thead>
             <tr>
                 <th>Project location</th>
-                <th>Result</th>
                 <th>Time</th>
             </tr>
             </thead>
@@ -49,7 +48,7 @@
           });
    };
     function default_date() {
-        $.get('/results/?page=1&&task_name={{task_name}}',{}, function(data) {
+        $.get('/projects/?page=1',{}, function(data) {
             $('#resulist').html(data);
             listenOnclick();
         });
@@ -59,7 +58,7 @@
         totalPages: {{ num }}/10 + 1 ,
         visiblePages: 7,
         onPageClick: function (event, page) {
-            var url='/results/?page=' + page + '&&task_name={{task_name}}';
+            var url='/projects/?page=' + page;
             $.get(url,{}, function(data) {
                 $('#resulist').html(data);
                 listenOnclick();

@@ -1,3 +1,25 @@
+int main() { return 0; }
+
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
 // Copyright @2017 Pony AI Inc. All Rights Reserved.
 // Authors: ruidong@pony.ai (Ruidong Tang)
 
@@ -52,6 +74,19 @@ void RegressionEditController::MousePressEvent(QMouseEvent* event) {
     }
   }
 }
+
+
+void Demo(int i)
+{
+  // i可能等于10，下标保护条件存在漏洞
+  if(i < 0 || i > 10)
+    return;
+
+  // i等于10时，数组越界
+  buf[i] = 'Q';
+}
+char buf[10];
+
 
 void RegressionEditController::MouseMoveEvent(QMouseEvent* /*event*/) {
 }
@@ -120,9 +155,145 @@ Model* RegressionEditController::MutableModel() {
   return CHECK_NOTNULL(parent_controller_->MutableModel());
 }
 
+
+void Demo(int i)
+{
+  // i可能等于10，下标保护条件存在漏洞
+  if(i < 0 || i > 10)
+    return;
+
+  // i等于10时，数组越界
+  buf[i] = 'Q';
+}
+char buf[10];
+
+
 void RegressionEditController::FlushAreaConditionProto() {
   MutableModel()->FlushRegressionFrameCondition();
 }
 
 }  // namespace perception_labeling
 }  // namespace tools
+
+
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];
+void Demo(int i)
+{
+	// i可能等于10，下标保护条件存在漏洞
+	if(i < 0 || i > 10)
+		return;
+
+	// i等于10时，数组越界
+	buf[i] = 'Q';
+}
+char buf[10];

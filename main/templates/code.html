@@ -57,9 +57,12 @@
   hljs.initHighlightingOnLoad();
   hljs.initLineNumbersOnLoad();
   const highlight_lines = [];
+  for (line of {{ func_lines }})
+    highlight_lines.push({start: line[0] - 1, end: line[1] - 1, color: 'cyan'});
   for (line of [ {{ lines }} ])
     highlight_lines.push({start: line - 1, end: line - 1, color: 'yellow'});
   hljs.initHighlightLinesOnLoad([highlight_lines]);
+
 </script>
 {% endblock %}
 

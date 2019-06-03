@@ -38,6 +38,7 @@ class note(models.Model):
         return self.todolist
 class Result(models.Model):
     domain = models.TextField()
+    task_name = models.TextField(default='', null=True)
     poc_file = models.TextField(default='', null=True)
     result = models.TextField()
     description = models.TextField(default='')
@@ -46,6 +47,13 @@ class Result(models.Model):
 
     def __unicode__(self):
         return self.result
+
+class Project(models.Model):
+    task_name = models.TextField()
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    is_fixed = models.NullBooleanField(default=False)
+    def __unicode__(self):
+         return self.task_name
 
 class Tasks_status(models.Model):
     domains = models.TextField()

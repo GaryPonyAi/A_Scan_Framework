@@ -54,6 +54,7 @@ class Poc_Launcher(object):
         print('hahahahaha')
         filename = target
         print(filename)
+        # out = subprocess.Popen(['javac', binary, filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         out = subprocess.Popen(['flawfinder', filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         stdout,stderr = out.communicate()
         stdout = stdout.decode("utf-8")
@@ -63,9 +64,11 @@ class Poc_Launcher(object):
             result[i] = list(result[i])
             result[i][3] = result[i][3].replace('\n  ', ' ').strip()
         description = '\n'.join([i[3] for i in result])
+        task_name = '/'.join(filename.split('/')[:-1])
         print(description)
-        b = Result.objects.create(domain=filename, poc_file=scan_tool, result=','.join([i[0] for i in result]),
+        b = Result.objects.create(domain=filename, task_name=task_name, poc_file=scan_tool, result=','.join([i[0] for i in result]),
                     description=description)
+        print(task_name)
         b.save()
 
 

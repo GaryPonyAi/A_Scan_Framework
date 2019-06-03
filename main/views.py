@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import ObjectDoesNotExist
 from pocscan.library.utils import get_poc_files
 from users.models import User
-from main.models import toollist,buglist,domain_ip,note,Result,Tasks_status
+from main.models import toollist,buglist,domain_ip,note,Result,Tasks_status,Project
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from xlwt import *
 from django.http import StreamingHttpResponse
@@ -23,14 +23,17 @@ def results(request):
     try:
         page = (int(request.GET['page']) - 1) * 10
         try:
-            results = Result.objects.all()[::-1]
+            task_name = request.GET['task_name']
+            results = Result.objects.filter(task_name = task_name)
+            # results = Result.objects.all()[::-1]
             results = results[page:(page + 10)]
             return render(request, 'reslist.html', {"results": results})
         except Exception as e:
             pass
     except Exception as e:
-        numOfResult = len(Result.objects.all())
-        return render(request, 'results.html', {"num": numOfResult})
+        task_name = request.GET['task_name']
+        numOfResult = len(Result.objects.filter(task_name = task_name).all())
+        return render(request, 'results.html', {"num": numOfResult, "task_name":task_name})
 
 
 def scan(request):
@@ -79,7 +82,6 @@ def scan(request):
 
 def save_result(request):
     try:
-        print(1111111111)
         target = request.POST.get('target', None)
         poc_file = request.POST.get('poc_file', None)
         result = request.POST.get('result', None)
@@ -92,18 +94,80 @@ def save_result(request):
         return JsonResponse({"status": e})
 
 def code(request):
-    print('22222222222222222')
     path = request.GET.get('path', None)
     lines = request.GET.get('lines', None)
     with open(path, 'r') as f:
         content = f.read()
 
-    print(path)
-    description = Result.objects.get(domain=path).description
-    print(description)
+    print(type(content))
+
+    stack, left_brackt_line, current_line, res, this_j = 0, 0, 1, [], 0
+
+    for i in range(len(content)):
+        if content[i] == '\n': current_line += 1
+        if content[i] == '{': 
+            stack += 1
+            if stack == 1: left_brackt_line = current_line
+        if content[i] == '}': 
+            stack -= 1
+            if not stack:
+                # if int(lines[this_j]) < current_line:
+                res.append([left_brackt_line, current_line])
+                    # left_brackt_line = current_line
+                    # while this_j < len(lines) and int(lines[this_j]) <= current_line:
+                    #     this_j += 1
+                    # if this_j >= len(lines): break
+    filtered_res = []
+    for func in res:
+        found = False
+        for line in lines.split(','):
+            line = int(line)
+            if func[0] <= line and line <= func[1]:
+                found = True
+                break
+        if found:
+            filtered_res.append(func)
+
+    print(res)
+    print(filtered_res)
+
+
+
+    # print(path)
+    numOfResult = len(Result.objects.filter(domain=path).all())
+    if numOfResult == 1:
+        description = Result.objects.get(domain=path).description
+    else :
+        # print(type(Result.objects.filter(domain=path)[0].description))
+        description = Result.objects.filter(domain=path)[0].description
+    # print(description)
     descriptions = description.split('\n')
     # return render(request, {'code.html'})
-    return render(request, 'code.html', {"content": content, "lines": lines, "descriptions" : descriptions})
+    return render(request, 'code.html', {"content": content, "lines": lines, "descriptions" : descriptions, "func_lines": filtered_res})
+
+def projects(request):
+            # results = Result.objects.all()[::-1]
+            # results = results[page:(page + 10)]
+            # return render(request, 'reslist.html', {"results": results})
+    projects = Project.objects.all()
+    # results = Result.objects.filter(task_name=task_name)
+    # return render(request, 'codelist.html', {"results": results})
+
+    try:
+        page = (int(request.GET['page']) - 1) * 10
+        try:
+            results = Project.objects.all()[::-1]
+            print(111111111)
+            results = results[page:(page + 10)]
+            print(2222222222)
+            return render(request, 'codelist.html', {"results": results})
+        except Exception as e:
+            pass
+    except Exception as e:
+        numOfResult = len(Project.objects.all())
+        print(numOfResult)
+        return render(request, 'projects.html', {"num": numOfResult})
+
 
 def scancheck(request):
     module = request.POST.get('module')

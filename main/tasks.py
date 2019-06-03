@@ -32,7 +32,7 @@ app.conf.update(
 def run_task_in_gevent(target, scan_tool):     # url_list 每个进程分配到一定量的url
     # print('fuck3')
     poc = Poc_Launcher()
-    print('fuck1')
+    # print('fuck1')
     # poc.save_result('target', 'poc_file', "12345")
     # print('fuck4')
     pool = Pool(100)

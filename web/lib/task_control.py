@@ -3,7 +3,7 @@
 import multiprocessing
 from pocscan.library.utils import get_poc_files, url_seg
 from main.tasks import run_task_in_gevent
-from main.models import Tasks_status
+from main.models import Tasks_status,Project
 from web.lib.crawler import MyCrawler
 from pathlib import Path
 import time
@@ -20,11 +20,14 @@ class Task_control(object):
     def assign_task_in_multiprocessing(self, targets, scan_tool):
         # print(targets)
         # run_task_in_gevent('123', 'fsdf')
-        print(targets[1])
+        # print(targets[1])
         for target in targets:
             # run_task_in_gevent(target, scan_tool)
             print(type(targets))
             multiprocessing.Process(target=run_task_in_gevent.delay, args=(target, scan_tool)).start()
+        task_name = '/'.join(targets[0].split('/')[:-1])
+        c = Project.objects.create(task_name=task_name)
+        c.save()
         # for url_each_process in url_list:
         #     multiprocessing.Process(target=run_task_in_gevent.delay, args=(url_each_process, poc_file_dict )).start()
 
@@ -41,7 +44,7 @@ class Task_control(object):
         #         file_targets.append(target)
         self.set_task_status(targets, task_name, status=True)
 
-        print(11111111111111)
+        # print(11111111111111)
         # url_list = url_seg(targets, self.process_num)
         # poc_file_dict = get_poc_files(poc_name)
         # self.assign_task_in_multiprocessing(url_list, poc_file_dict)
