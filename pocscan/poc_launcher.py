@@ -51,36 +51,41 @@ class Poc_Launcher(object):
 
         # filename = '/home/jiarui/A_Scan_Framework/test/test2.cpp'
         # time.sleep(60)
-        print(scan_tool)
-        if scan_tool == 0:
-            out = subprocess.Popen(['flawfinder', filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            stdout,stderr = out.communicate()
-            stdout = stdout.decode("utf-8")
-            r = re.compile('[^:]+:(\\d+):\\s+\\[(\\d+)\\]\\s+([^:]+):\n((?:  .*\n)+)')
-            result = r.findall(stdout)
-            for i in range(len(result)):
-                result[i] = list(result[i])
-                result[i][3] = result[i][3].replace('\n  ', ' ').strip()
-            description = '\n'.join([i[3] for i in result])
-            task_name = '/'.join(filename.split('/')[:-1])
-            # print(description)
-            b = Result.objects.create(domain=filename, task_name=task_name, poc_file=scan_tool, result=','.join([i[0] for i in result]),
-                        description=description)
-            print(task_name)
-            b.save()
-        if scan_tool == 2:
-            out = subprocess.Popen(['/home/jiarui/TscanCode/release/linux/TscanCodeV2.14.24.linux/TscanCodeV2.14.2395.linux/tscancode', filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            stdout,stderr = out.communicate()
-            stdout = stdout.decode("utf-8")
-            r = re.compile('\\[([^:\n]+):(\\d+)\\]:\\s*\\(([^)]+)\\)\\s*(.*)')
-            result = r.findall(stdout)
-            for i in range(len(result)):
-                result[i] = list(result[i])
-            description = '\n'.join([i[3] for i in result])
-            task_name = '/'.join(filename.split('/')[:-1])
-            b = Result.objects.create(domain=filename, task_name=task_name, poc_file=scan_tool, result=','.join([i[1] for i in result]),
-                        description=description)
-            b.save()
+        # print(type(scan_tool))
+        # if scan_tool == '1':
+        #     print(1111111111111111)
+        print('hahahahaha')
+        filename = target
+        print(filename)
+        # out = subprocess.Popen(['javac', binary, filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        out = subprocess.Popen(['flawfinder', filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        stdout,stderr = out.communicate()
+        stdout = stdout.decode("utf-8")
+        r = re.compile('[^:]+:(\\d+):\\s+\\[(\\d+)\\]\\s+([^:]+):\n((?:  .*\n)+)')
+        result = r.findall(stdout)
+        for i in range(len(result)):
+            result[i] = list(result[i])
+            result[i][3] = result[i][3].replace('\n  ', ' ').strip()
+        description = '\n'.join([i[3] for i in result])
+        task_name = '/'.join(filename.split('/')[:-1])
+        print(description)
+        b = Result.objects.create(domain=filename, task_name=task_name, poc_file=scan_tool, result=','.join([i[0] for i in result]),
+                    description=description)
+        print(task_name)
+        b.save()
+        # if scan_tool == '2':
+        #     out = subprocess.Popen(['/home/jiarui/TscanCode/release/linux/TscanCodeV2.14.24.linux/TscanCodeV2.14.2395.linux/tscancode', filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        #     stdout,stderr = out.communicate()
+        #     stdout = stdout.decode("utf-8")
+        #     r = re.compile('\\[([^:\n]+):(\\d+)\\]:\\s*\\(([^)]+)\\)\\s*(.*)')
+        #     result = r.findall(stdout)
+        #     for i in range(len(result)):
+        #         result[i] = list(result[i])
+        #     description = '\n'.join([i[3] for i in result])
+        #     task_name = '/'.join(filename.split('/')[:-1])
+        #     b = Result.objects.create(domain=filename, task_name=task_name, poc_file=scan_tool, result=','.join([i[1] for i in result]),
+        #                 description=description)
+        #     b.save()
 
 
     def poc_verify(self, target, plugin_type, poc_file):

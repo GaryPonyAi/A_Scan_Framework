@@ -23,7 +23,6 @@ class Task_control(object):
         # print(targets[1])
         for target in targets:
             # run_task_in_gevent(target, scan_tool)
-            print(type(targets))
             multiprocessing.Process(target=run_task_in_gevent.delay, args=(target, scan_tool)).start()
         task_name = '/'.join(targets[0].split('/')[:-1])
         c = Project.objects.create(task_name=task_name)

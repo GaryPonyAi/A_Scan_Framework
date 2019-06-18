@@ -99,8 +99,6 @@ def code(request):
     with open(path, 'r') as f:
         content = f.read()
 
-    print(type(content))
-
     stack, left_brackt_line, current_line, res, this_j = 0, 0, 1, [], 0
 
     for i in range(len(content)):
